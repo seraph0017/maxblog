@@ -2,7 +2,7 @@
 import os
 import sys
 from mongoengine import *
-from redis import Redis
+# from redis import Redis
 
 selfpath = os.path.split(os.path.realpath(__file__))[0]
 PATH = os.path.abspath(os.path.join(selfpath,'..'))
@@ -151,6 +151,8 @@ INSTALLED_APPS = (
     'tastypie_mongoengine',
 
     'accounts',
+    'webanan',
+    'api',
 )
 
 

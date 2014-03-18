@@ -44,7 +44,7 @@ def fetch_elements(html,lo_name,locate_source):
             raise Exception
     elif isinstance(path,basestring):
         return html.cssselect(path)
-
     else:
         raise Exception
     
+

@@ -25,3 +25,5 @@ class UserResource(resources.MongoEngineResource):
             'email': ALL_WITH_RELATIONS,
             'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
         }
+
+
