@@ -124,11 +124,11 @@ class Server(object):
                 keyword = fetch_elements(node,u'关键词',self.locate)[0].text_content()
                 category = url[1]
                 key_list = []
-                print '-------------------------'
-                print title
-                print link_url
+                # print '-------------------------'
+                # print title
+                # print link_url
                 author,date,keywords = self._get_details(sth, keyword)
-                print author
+                # print author
                 if author:
                     if Author.objects(name=author).first():
                         new_author = Author.objects(name=author).first()
@@ -137,11 +137,11 @@ class Server(object):
                         new_author.save()
                 else:
                     new_author = None
-                print date
+                # print date
                 for key in keywords:
                     key_list.append(Keyword(name=key))
-                    print key,
-                print ''
+                    # print key,
+                # print ''
                 new_article = Article(
                         title = title,
                         url = link_url,
