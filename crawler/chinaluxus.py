@@ -102,9 +102,9 @@ class Server(object):
         #     pool.spawn(self._get_info, url)
         # pool.join()
 
-        
+
         for url in urls:
-            self._get_info()
+            self._get_info(url)
 
         # pool = Pool(processes=8)
         # pool.map(run,urls)
