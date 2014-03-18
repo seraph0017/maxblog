@@ -21,6 +21,7 @@ class SiteResource(resources.MongoEngineResource):
         authorization = authorization.Authorization()
         resource_name = 'site'
         filtering = {
+            'name': ALL_WITH_RELATIONS,
             'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
         }
 
@@ -35,8 +36,26 @@ class ArticleResource(resources.MongoEngineResource):
         authorization = authorization.Authorization()
         resource_name = 'article'
         filtering = {
+            'id': ALL_WITH_RELATIONS,
+            'author': ALL_WITH_RELATIONS,
+            'title': ALL_WITH_RELATIONS,
+            'belong_cate':ALL_WITH_RELATIONS,
             'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
         }
+
+    def build_filters(self,filters=None):
+        if filters is None:
+            filters = {}
+        orm_filters = super(ArticleResource, self).build_filters(filters)
+        if 'author' in filters:
+            author = filters['author']
+            qset = models.Author.objects(name=author).first()
+            orm_filters.update({'author__exact':qset})
+        if 'belong_cate' in filters:
+            belong_cate = filters['belong_cate']
+            qset = models.Category.objects(name=belong_cate).first()
+            orm_filters.update({'belong_cate__exact':qset})
+        return orm_filters
 
 
 class DomainResource(resources.MongoEngineResource):
