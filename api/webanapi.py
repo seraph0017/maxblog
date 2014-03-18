@@ -31,6 +31,7 @@ class ArticleResource(resources.MongoEngineResource):
     Article模块的api定义方法
     """
     class Meta:
+        limit = 10
         queryset = models.Article.objects.all()
         allowed_methods = ('get', 'post', 'put', 'delete')
         authorization = authorization.Authorization()
@@ -40,6 +41,7 @@ class ArticleResource(resources.MongoEngineResource):
             'author': ALL_WITH_RELATIONS,
             'title': ALL_WITH_RELATIONS,
             'belong_cate':ALL_WITH_RELATIONS,
+            'url':ALL_WITH_RELATIONS,
             'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
         }
 

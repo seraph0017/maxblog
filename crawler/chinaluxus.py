@@ -97,10 +97,14 @@ class Server(object):
         """
         urls = self._get_all_pages()
 
-        pool = Pool(size=30)
+        # pool = Pool(size=30)
+        # for url in urls:
+        #     pool.spawn(self._get_info, url)
+        # pool.join()
+
+        
         for url in urls:
-            pool.spawn(self._get_info, url)
-        pool.join()
+            self._get_info()
 
         # pool = Pool(processes=8)
         # pool.map(run,urls)
