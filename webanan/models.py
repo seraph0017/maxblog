@@ -8,7 +8,7 @@ webana.models
 from mongoengine import *
 from utils.things import get_id
 from datetime import datetime
-# from maxblog.settings import connect
+from maxblog.settings import connect
 
 class Site(Document):
     """.. :py:class:: Site
