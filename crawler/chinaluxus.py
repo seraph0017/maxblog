@@ -108,7 +108,7 @@ class Server(object):
         """
         urls = self._get_all_pages()
 
-        pool = Pool(size=100)
+        pool = Pool(size=50)
         for url in urls:
             pool.spawn(self._get_info, url)
         pool.join()
