@@ -8,6 +8,8 @@ utils.things
 from bson.objectid import ObjectId
 import lxml.html
 import requests
+import logging
+
 
 def get_id():
     """.. :py:method::
@@ -48,3 +50,14 @@ def fetch_elements(html,lo_name,locate_source):
         raise Exception
     
 
+def get_log(name):
+    """.. :py:method::
+    获取日志
+    """
+    r = logging.getLogger(name)
+    r.setLevel(logging.INFO)
+    ch = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s-%(levelname)s-%(name)s: %(message)s')
+    ch.setFormatter(formatter)
+    r.addHandler(ch)
+    return r

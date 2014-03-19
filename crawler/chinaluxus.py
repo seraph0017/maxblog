@@ -5,11 +5,13 @@ crawler.autohome
 ~~~~~~~~~~~~~~~~~~~~
 中奢网爬虫文件
 """
+from gevent import monkey;monkey.patch_all()
 from webanan.models import Site,Category,Author,Article,Domain,Keyword
 # from maxblog.settings import redisClient
-from utils.things import fetch_page, fetch_elements
+from utils.things import fetch_page, fetch_elements, get_log
 
 from gevent.pool import Pool
+
 
 # from multiprocessing import Pool
 
@@ -22,6 +24,8 @@ import requests
 import re
 
 
+
+log = get_log(__file__)
 
 
 # R = redis.StrictRedis()
@@ -57,9 +61,11 @@ class Server(object):
         """
         site_instance = Site.objects(url=self.site_url).first()
         if site_instance:
+            log.info('already have site {}'.format(self.site_url))
             pass
         else:
             Site(name=self.site_name,url=self.site_url).save()
+            log.info('site {} fetch done'.format(self.site_url))
 
 
     def get_domain(self):
@@ -71,9 +77,11 @@ class Server(object):
         site = Site.objects(url=self.site_url).first()
         for node in nodes:
             if Domain.objects(url = node.get(u'href')):
+                log.info('already have domain {}'.format(node.get(u'href')))
                 pass
             else:
                 Domain(name=node.text,url=node.get(u'href'),belong_site=site).save()
+                log.info('domain {} fetch done'.format(node.get(u'href')))
 
     def get_category(self):
         """.. :py:method::
@@ -86,9 +94,12 @@ class Server(object):
             domain = Domain.objects(url=domain.url).first()
             for node in nodes:
                 if Category.objects(url=node.get(u'href')) or u'名车' in node.get(u'href'):
+                    # print node.get(u'href')
+                    log.info('already have category {}'.format(node.get(u'href').encode('utf-8')))
                     pass
                 else:
                     Category(name=node.text,url=node.get(u'href'),belong_Domain=domain).save()
+                    log.info('category {} fetch done'.format(node.get(u'href')))
 
 
     def get_article(self):
@@ -97,22 +108,13 @@ class Server(object):
         """
         urls = self._get_all_pages()
 
-        pool = Pool(size=30)
+        pool = Pool(size=100)
         for url in urls:
             pool.spawn(self._get_info, url)
         pool.join()
 
 
-        # for url in urls:
-        #     try:
-        #         self._get_info(url)
-        #     except:
-        #         pass
-
-        # pool = Pool(processes=8)
-        # pool.map(run,urls)
-        
-
+    
     def _get_info(self,url):
         """.. :py:method::
         从url中获取所有的信息
@@ -123,6 +125,7 @@ class Server(object):
         for node in nodes:
             link_url = fetch_elements(node,u'标题',self.locate)[0].get('href')
             if Article.objects(url=link_url).first():
+                log.info('already have article {}'.format(link_url))
                 pass
             else:
                 title = fetch_elements(node,u'标题',self.locate)[0].text
@@ -131,11 +134,8 @@ class Server(object):
                 keyword = fetch_elements(node,u'关键词',self.locate)[0].text_content()
                 category = url[1]
                 key_list = []
-                print '-------------------------'
-                print title
-                print link_url
+                log.info('article {} fetch done'.format(link_url))
                 author,date,keywords = self._get_details(sth, keyword)
-                print author
                 if author:
                     if Author.objects(name=author).first():
                         new_author = Author.objects(name=author).first()
@@ -144,11 +144,8 @@ class Server(object):
                         new_author.save()
                 else:
                     new_author = None
-                print date
                 for key in keywords:
                     key_list.append(Keyword(name=key))
-                    print key,
-                print ''
                 new_article = Article(
                         title = title,
                         url = link_url,
@@ -159,28 +156,7 @@ class Server(object):
                     )
                 new_article.save()
 
-            # link_url = fetch_elements(node,u'标题',self.locate)[0].get('href')
-            # title = fetch_elements(node,u'标题',self.locate)[0].text
-            # sth = fetch_elements(node,u'文章杂项',self.locate)[0].text
             
-            # keyword = fetch_elements(node,u'关键词',self.locate)[0].text_content()
-            # category = url[1]
-            # key_list = []
-            # print '-------------------------'
-            # print title
-            # print link_url
-            # author,date,keywords = self._get_details(sth, keyword)
-            # print author
-            # if author:
-            #     new_author = Author(name=author)
-            #     new_author.save()
-            # else:
-            #     new_author = None
-            # print date
-            # for key in keywords:
-            #     key_list.append(Keyword(name=key))
-            #     print key,
-            # print ''
 
 
 
@@ -231,10 +207,6 @@ class Server(object):
 
 
 
-# def run(server):
-#     urls = server._get_all_pages()
-#     pool = Pool(processes=8)
-#     pool.map(server._get_details,urls)
 
 
 
@@ -250,8 +222,6 @@ if __name__ == '__main__':
     server.get_domain()
     server.get_category()
     server.get_article()
-
-    # run(server)
     stop = datetime.now()
     print stop - start
 
