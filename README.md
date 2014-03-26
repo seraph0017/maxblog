@@ -1,0 +1,4 @@
+maxblog
+=======
+
+my mongo practise
