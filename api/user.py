@@ -10,6 +10,7 @@ from tastypie_mongoengine import resources
 from accounts import models
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 
+
 class UserResource(resources.MongoEngineResource):
     """.. py:class::UserResource
     user模块的api定义方法
@@ -20,6 +21,7 @@ class UserResource(resources.MongoEngineResource):
         excludes = ['password']
         authorization = authorization.Authorization()
         resource_name = 'user'
+
         filtering = {
             'username': ALL_WITH_RELATIONS,
             'email': ALL_WITH_RELATIONS,

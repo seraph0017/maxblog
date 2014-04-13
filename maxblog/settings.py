@@ -130,7 +130,8 @@ WSGI_APPLICATION = 'maxblog.wsgi.application'
 
 TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, 'templates'),
-    os.path.join(BASE_DIR, 'templates','bbs'),
+    os.path.join(BASE_DIR, 'templates','webanan'),
+    os.path.join(BASE_DIR, 'templates','admin'),
 ]
 
 INSTALLED_APPS = (
@@ -150,9 +151,12 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
 
+    'redis_cache',
+
     'accounts',
     'webanan',
     'api',
+    'admin',
 )
 
 
@@ -169,6 +173,21 @@ SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "redis_cache.cache.RedisCache",
+        "LOCATION": "127.0.0.1:6379:1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+            # "TIMEOUT": 30,
+        }
+    }
+}
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

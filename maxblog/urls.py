@@ -26,5 +26,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls',namespace='accounts')),
+    url(r'^webanan/', include('webanan.urls',namespace='webanan')),
+    url(r'^admin/', include('admin.urls',namespace='admin')),
     url(r'^api/',include(v1_api.urls)),
 )

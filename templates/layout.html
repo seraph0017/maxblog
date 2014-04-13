@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="just for study">
+    <meta name="author" content="max">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/semantic.min.css" rel="stylesheet">
+    <link href="/static/css/common.css" rel="stylesheet">
+    {% block css_append %}{% endblock %}
+</head>
+<body>
+
+    <div id="container">
+
+        <div id="header">
+            <div class="ui green inverted menu small M_sharp">
+                <div class="middle">
+                  <a class="active item" href="/webanan/article">
+                      <i class="home icon"></i> 主页
+                  </a>
+                  {% for domain in domains %}
+                    <a class="item" href="/webanan/article/{{domain}}">
+                      {{domain}}
+                    </a>
+                  {% endfor %}
+                  
+                </div>
+            </div>
+        </div>
+        <div class="middle">
+            <div id="content">
+                <!-- Content goes here -->
+            {% block content %}{% endblock %}
+            </div>
+            <div id="menu">
+                {% block menu %}{% endblock %}
+                <!-- <ul>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                </ul> -->
+            </div>
+        </div>
+
+        
+
+        <div id="footer">Max</div>
+
+    </div>
+
+<!-- {{test}} -->
+
+
+<!-- bootstrap js -->
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/semantic.min.js"></script>
+{% block js_append %}{% endblock %}
+</body>
+</html>

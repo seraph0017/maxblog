@@ -9,6 +9,7 @@ from tastypie import authorization
 from tastypie_mongoengine import resources
 from webanan import models
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+# from tastypie_mongoengine import fields
 
 
 class SiteResource(resources.MongoEngineResource):
@@ -26,10 +27,42 @@ class SiteResource(resources.MongoEngineResource):
         }
 
 
+class AuthorResource(resources.MongoEngineResource):
+    """.. py:class::AuthorResource
+    Author模块的api定义方法
+    """
+    class Meta:
+        queryset = models.Author.objects.all()
+        allowed_methods = ('get', 'post', 'put', 'delete')
+        authorization = authorization.Authorization()
+        resource_name = 'author'
+        filtering = {
+            'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
+        }
+
+
+class CategoryResource(resources.MongoEngineResource):
+    """.. py:class::CategoryResource
+    Category模块的api定义方法
+    """
+    class Meta:
+        queryset = models.Category.objects.all()
+        allowed_methods = ('get', 'post', 'put', 'delete')
+        authorization = authorization.Authorization()
+        resource_name = 'category'
+        filtering = {
+            'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
+        }
+
+
 class ArticleResource(resources.MongoEngineResource):
     """.. py:class::ArticleResource
     Article模块的api定义方法
     """
+    # author = fields.ReferenceField(AuthorResource, 'author')
+    # belong_cate = fields.ReferenceField(CategoryResource,'belong_cate')
+
+
     class Meta:
         limit = 10
         queryset = models.Article.objects.all()
@@ -74,29 +107,6 @@ class DomainResource(resources.MongoEngineResource):
         }
 
 
-class CategoryResource(resources.MongoEngineResource):
-    """.. py:class::CategoryResource
-    Category模块的api定义方法
-    """
-    class Meta:
-        queryset = models.Category.objects.all()
-        allowed_methods = ('get', 'post', 'put', 'delete')
-        authorization = authorization.Authorization()
-        resource_name = 'category'
-        filtering = {
-            'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
-        }
 
 
-class AuthorResource(resources.MongoEngineResource):
-    """.. py:class::AuthorResource
-    Author模块的api定义方法
-    """
-    class Meta:
-        queryset = models.Author.objects.all()
-        allowed_methods = ('get', 'post', 'put', 'delete')
-        authorization = authorization.Authorization()
-        resource_name = 'author'
-        filtering = {
-            'pub_date': ['exact', 'lt', 'lte', 'gte', 'gt'],
-        }
+
