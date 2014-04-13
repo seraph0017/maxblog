@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400;
+  /*src: local('Karla'), local('Karla-Regular'), url(https://themes.googleusercontent.com/static/fonts/karla/v3/QT0qO2FiFD03cwUe_t62t6CWcynf_cDxXwCLxiixG1c.woff) format('woff');*/
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  /*src: local('Ubuntu'), url(https://themes.googleusercontent.com/static/fonts/ubuntu/v5/vRvZYZlUaogOuHbBTT1SNevvDin1pK8aKteLpeZ5c0A.woff) format('woff');*/
+}

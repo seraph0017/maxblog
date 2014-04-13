@@ -1,0 +1,78 @@
+{% extends "admin_layout.html" %}
+    
+{% block content %}
+
+<div>
+  <ul class="breadcrumb">
+    <li>
+      <a href="/admin">后台</a> <span class="divider">/</span>
+    </li>
+    <li>
+      <a href="#">{{bread}}</a>
+    </li>
+  </ul>
+</div>
+<div class="sortable row-fluid">
+
+  <div class="row-fluid sortable">    
+    <div class="box span12">
+      <div class="box-header well" data-original-title>
+        <h2><i class="icon-user"></i>{{bread}}</h2>
+        <div class="box-icon">
+          <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
+          <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+          <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+        </div>
+      </div>
+      <div class="box-content">
+        <table class="table table-striped table-bordered bootstrap-datatable">
+          <thead>
+            <tr>
+              {% for head in info_head %}
+                <th>{{head}}</th>
+              {% endfor %}
+            </tr>
+          </thead>   
+          <tbody>
+          {% for info in info_list %}
+            <tr>
+              <td>{{info.title}}</td>
+              <td class="center">
+                <a href="{{info.url}}" target="_blank">{{info.url}}</a>
+              </td>
+              <td class="center">{{info.publish_at|date:"Y-m-d,H:i"}}</td>
+              <td class="center">{{info.create_at|date:"Y-m-d,H:i"}}</td>
+              <td class="center">{{info.author}}</td>
+              <td class="center">{{info.belong_cate}}</td>
+              <td class="center">
+                <a class="btn btn-info" href="#">
+                  <i class="icon-edit icon-white"></i>  
+                  Edit                                            
+                </a>
+                <a class="btn btn-danger" href="#">
+                  <i class="icon-trash icon-white"></i> 
+                  Delete
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <div class="row-fuild span12 center">
+          <div class="dataTables_paginate paging_bootstrap pagination">
+            <ul>
+              <li class="prev"><a href="?page=1">首页</a></li>
+              {% for page in pa.pages %}
+              <li><a href="?page={{page}}">{{page}}</a></li>
+              {% endfor %}
+              <li class="next"><a href="?page={{pa.total_page}}">末页</a></li>
+            </ul>
+          </div>
+        </div>           
+      </div>
+    </div><!--/span-->
+
+  </div><!--/row-->
+
+</div>
+{% endblock %}

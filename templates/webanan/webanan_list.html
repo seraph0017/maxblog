@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+
+
+
+{% block content %}
+<div id="mygraph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+{% endblock %}
+
+
+{% block menu %}
+{% endblock %}
+
+
+
+{% block js_append %}
+<script src="/static/js/highcharts.js"></script>
+<script src="/static/js/data.js"></script>
+<script src="/static/js/drilldown.js"></script>
+
+<script type="text/javascript">
+$(function () {
+    $('#mygraph').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: '{{title}}'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '分类占比',
+            data: [
+            {% for k,v in per_dict.items %}
+                ['{{k}}',{{v}}],         
+            {% endfor %}
+            ]
+        }]
+    });
+});
+    
+
+</script>
+{% endblock %}

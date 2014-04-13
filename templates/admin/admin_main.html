@@ -1,0 +1,26 @@
+{% extends "admin_layout.html" %}
+  
+{% block content %}
+
+<div>
+  <ul class="breadcrumb">
+    <li>
+      <a href="#">后台</a> <span class="divider">/</span>
+    </li>
+    <li>
+      <a href="#">概览</a>
+    </li>
+  </ul>
+</div>
+<div class="sortable row-fluid">
+
+  {% for k,v in list_dict.items %}
+    <a data-rel="tooltip" title="{{v}}个" class="well span2 top-block" href="#">
+      <span class="icon32 icon-red icon-user"></span>
+      <div>{{k}}</div>
+      <div>{{v}}</div>
+    </a>
+  {% endfor %}
+
+</div>
+{% endblock %}
