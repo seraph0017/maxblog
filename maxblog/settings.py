@@ -147,10 +147,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'django.contrib.auth',
     'mongoengine.django.mongo_auth',
-
     'tastypie',
     'tastypie_mongoengine',
-
     'redis_cache',
 
     'accounts',
