@@ -17,10 +17,6 @@ from gevent.pool import Pool
 
 from datetime import datetime
 
-# import redis
-import lxml.html
-import requests
-# import math
 import re
 
 
